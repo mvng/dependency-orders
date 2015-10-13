@@ -1,7 +1,6 @@
 var INSTALL = "['KittenService: CamelCaser', 'CamelCaser: ']";
 
-
-function input(packages) {
+function parse(packages) {
 
   packages = packages.replace('[', '');
   packages = packages.replace(']', '');
@@ -24,9 +23,19 @@ function assert(condition, message) {
 
 function testSuite() { 
 console.log('Testing.... '); 
-  assert(input("['KittenService: CamelCaser', 'CamelCaser: ']")[0] === "KittenService:CamelCaser", 'Failed Split Initial String');
-  assert(input("['KittenService: CamelCaser', 'CamelCaser: ']")[1] === "CamelCaser:", 'Failed Split Initial String');
+  assert(parse("['KittenService: CamelCaser', 'CamelCaser: ']")[0] === "KittenService:CamelCaser", 'Failed Split Initial String');
+  assert(parse("['KittenService: CamelCaser', 'CamelCaser: ']")[1] === "CamelCaser:", 'Failed Split Initial String');
   console.log('Passed!');
 }
 
-testSuite();
+// testSuite();
+
+
+
+function main () {
+
+  console.log('Main Task ...');
+}
+
+
+main();
