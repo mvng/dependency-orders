@@ -58,6 +58,9 @@ var packages = new function() {
   this.installMerge = function(dependencyStage, stage) {
     while(dependencyStage.length > 0) {
       var toMerge = dependencyStage.pop();
+      if(this.installList[toMerge].installed) {
+        continue;
+      }
       this.installList[toMerge].installed = true;
       this.uniquePackages.splice(this.uniquePackages.indexOf(toMerge), 1);
      stage.push(toMerge);
@@ -82,3 +85,4 @@ var packages = new function() {
     return this.size;
   }
 } 
+    

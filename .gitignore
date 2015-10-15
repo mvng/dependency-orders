@@ -1,3 +1,9 @@
 node_modules
 
 .bash_profile
+
+karma_html/Chrome 46.0.2490 (Mac OS X 10.11.0)/index.html
+
+karma_html/report-summary-filename/index.html
+
+tests/units.html
