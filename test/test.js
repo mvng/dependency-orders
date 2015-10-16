@@ -1,12 +1,3 @@
-describe("Input Parsing Test", function() {
-  it("Basic Splitting", function() {
-    var message = parse("['KittenService: CamelCaser', 'CamelCaser: ']");
-    
-    expect(message[0]).toBe('KittenService:CamelCaser');
-    expect(message[1]).toBe('CamelCaser:');
-  });
-});
-
 describe("Basic Installs", function () {
   it("Basic Case A", function() {
       var expectedOutput = ['X', 'ayy', 'Donger', 'CamelCaser', 'KittenService', 'b', 'a'];
@@ -212,5 +203,21 @@ describe("Cycle Catching",  function() {
 
     expect( function(){ packages.installPackages(); }).toThrow(new UserException("Cycle Detected"));
   });
+  it("Dependency Problem with Cycle Case C", function() {
+    packages.add('A', 'B');
+    packages.add('D', 'A');
+
+    expect( function(){ packages.installPackages(); }).toThrow(new UserException("Cycle Detected"));
+  });
+    it("No Dependency Found", function(){
+      packages.clear();
+      packages.add('a','b');
+      packages.add('b','c');
+      packages.add('c','d'); 
+    expect( function(){     
+      packages.installPackages(); 
+    }).toThrow(new UserException("Could Not Find Dependency for Package c"));
+  });
 
 });
+

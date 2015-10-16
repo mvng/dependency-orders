@@ -1,28 +1,10 @@
-function UserException(message) {
-   this.message = message;
-   this.name = "UserException";
-}
 
-function parse(packages) {
-
-  packages = packages.replace('[', '');
-  packages = packages.replace(']', '');
-  packages = packages.replace(/'/g, '');
-  packages = packages.replace(/ /g, '');
-
-  packages = packages.split(",");
-  return packages;
-}
-
-//singleton object of packages to install.
 var packages = new function() {
-  this.size = 0;
   this.installList = {};
   this.uniquePackages = [];
 
   this.installPackages = function() {
     var installList = [];
-    var size = this.size;
     var stage = [];
     var counter = 0;
    while (this.uniquePackages.length > 0) {
@@ -43,6 +25,9 @@ var packages = new function() {
         while(current.dependency != false && !current.installed && !current.visited){
           current.visited = true;
           current = this.installList[current.dependency];
+          if (typeof current === 'undefined') {
+            throw new UserException("Could Not Find Dependency for Package " + dependencyStage.pop());
+          }
           dependencyStage.push(current.name);
 
          }
@@ -77,7 +62,11 @@ var packages = new function() {
     this.size++;
     this.uniquePackages.push(name);
   }
-
+  this.clear = function() {
+    this.installList = {}
+    this.uniquePackages = [];
+    this.stage = [];
+  }
   this.getUniquePackages = function () {
     return this.uniquePackages;
   }
@@ -85,4 +74,25 @@ var packages = new function() {
     return this.size;
   }
 } 
-    
+
+function UserException(message) {
+   this.message = message;
+   this.name = "UserException";
+}
+
+function installer(input) {
+  var objects = {}
+  input = input.replace('[', '');
+  input = input.replace(']', '');
+  input = input.replace(/'/g, '');
+  input = input.replace(/ /g, '');
+
+  input = input.split(",");
+
+  for (var i = 0; i < input.length; i++) {
+    input[i] = input[i].split(":");
+    packages.add(input[i][0], input[i][1]);
+  }
+
+  return packages.installPackages();
+}
