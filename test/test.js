@@ -12,7 +12,7 @@ describe("Basic Installs", function () {
       expect(output).toEqual(expectedOutput);  
     });
 
-    it("Example Case A", function() {
+    it("Example Case A - Testing Package Functionality", function() {
       var expectedOutput = ['CamelCaser', 'KittenService'];
       packages.add('KittenService', 'CamelCaser');
       packages.add('CamelCaser', ' ');
@@ -20,7 +20,7 @@ describe("Basic Installs", function () {
       expect(output).toEqual(expectedOutput);  
     });
 
-        it("Example Case B", function() {
+        it("Example Case B - Testing Package Functionality", function() {
       var expectedOutput = ['KittenService', 'Ice', 'Cyberportal', 'Leetmeme', 'CamelCaser', 'Fraudstream'];
       packages.add('KittenService', ' ');
       packages.add('Leetmeme', 'Cyberportal');
@@ -34,7 +34,7 @@ describe("Basic Installs", function () {
       expect(output).toEqual(expectedOutput);  
     });
 
-     it("z - a", function() {
+     it("z - a - Testing Package Functionality", function() {
    var expectedOutput = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     
     packages.add('z', 'y');
@@ -68,7 +68,7 @@ describe("Basic Installs", function () {
       expect(output).toEqual(expectedOutput);  
     });
 
-     it("z - a pairs", function() {
+     it("z - a pairs - Testing Package Functionality", function() {
    var expectedOutput = ['x', 'y', 'z', 'q', 'r', 's', 't', 'u', 'v', 'w', 'k', 'l', 'm', 'n', 'o', 'p', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
     
     packages.add('z', 'y');
@@ -105,7 +105,7 @@ describe("Basic Installs", function () {
       expect(output).toEqual(expectedOutput);  
     });
 
-     it("x - c majority mix", function() {
+     it("x - c majority mix - Testing Package Functionality", function() {
    var expectedOutput = [ 'x', 'a', 'd', 'e', 'f', 'g', 'c', 'v', 'w', 'b', 'y', 'z', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u' ];
     packages.add('a', 'x');
     packages.add('d', 'x');
@@ -142,9 +142,37 @@ describe("Basic Installs", function () {
       expect(output).toEqual(expectedOutput);  
     });
 
+  it("installer A", function() {
+    var expectedOutput = [ 'C', 'B', 'A' ];
+    var output = installer(['A: B', 'B: C', 'C: ']);
+
+    expect(output).toEqual(expectedOutput);
+  });
+  
+  it("installer A", function() {
+    var expectedOutput = [ 'C', 'B', 'A' ];
+    var output = installer(['A: B', 'B: C', 'C: ']);
+
+    expect(output).toEqual(expectedOutput);
+  });
+  
+  it("installer B", function() {
+    var expectedOutput = [ 'b', 'a', 'c', 'd', 'e', 'f', 'g', 'h' ];
+    var output = installer(['a: b', 'c: b', 'd: b', 'e: b', 'b: ', 'f: b', 'g: b', 'h: b']);
+
+    expect(output).toEqual(expectedOutput);
+  });
+
+    it("installer C", function() {
+    var expectedOutput = [ '89', '100', 'b', 'a', 'c', 'd', 'e', 'f', 'g', 'h', '2', '1', 'x', '9', '5' ];
+    var output = installer(['a: b', 'c: b', 'd: b', 'e: b', 'b: 100', 'f: b', 'g: b', 'h: b', 'x: 1', '1: 2', '5: 9', '9: c', '2: 100', '100: 89', '89: ']);
+
+    expect(output).toEqual(expectedOutput);
+  });
 });
+
 describe("Example Cycle Testing", function() {
- it("Example Cycle", function() {
+ it("Example Cycle - Testing Package Functionality", function() {
     packages.add('KittenService', ' ');
     packages.add('Leetmeme', 'Cyberportal');
     packages.add('Cyberportal', 'Ice');
@@ -152,72 +180,54 @@ describe("Example Cycle Testing", function() {
     packages.add('Fraudstream', ' ');
     packages.add('Ice', 'Leetmeme');
 
-    expect( function(){ packages.installPackages(); }).toThrow(new UserException("Cycle Detected"));
+    expect( function(){ packages.installPackages(); }).toThrow();
   });
 });
 
 describe("Cycle Catching",  function() {
-    it("Cycle In The Middle", function() {
-    packages.add('z', 'y');
-    packages.add('y', 'x');
-    packages.add('x', 'w');
-    packages.add('w', 'v');
-    packages.add('v', 'u');
-    packages.add('u', 't');
-    packages.add('t', 's');
-    packages.add('s', 'r');
-    packages.add('r', 'q');
-    packages.add('q', 'p');
-    packages.add('p', 'o');
-    packages.add('o', 'n');
-    packages.add('n', 'm');
-    packages.add('m', 'l');
-    packages.add('l', 'z');
+    
+  it("Cycle In The Middle", function() {
+      packages.add('z', 'y');
+      packages.add('y', 'x');
+      packages.add('x', 'w');
+      packages.add('w', 'v');
+      packages.add('v', 'u');
+      packages.add('u', 't');
+      packages.add('t', 's');
+      packages.add('s', 'r');
+      packages.add('r', 'q');
+      packages.add('q', 'p');
+      packages.add('p', 'o');
+      packages.add('o', 'n');
+      packages.add('n', 'm');
+      packages.add('m', 'l');
+      packages.add('l', 'z');
 
-    packages.add('k', 'j');
-    packages.add('j', 'i');
-    packages.add('i', 'h');
-    packages.add('h', 'g');
-    packages.add('g', 'f');
-    packages.add('f', 'e');
-    packages.add('e', 'd');
-    packages.add('d', 'c');
-    packages.add('c', 'b');
-    packages.add('b', 'a');
-    packages.add('a', 'k');
+      packages.add('k', 'j');
+      packages.add('j', 'i');
+      packages.add('i', 'h');
+      packages.add('h', 'g');
+      packages.add('g', 'f');
+      packages.add('f', 'e');
+      packages.add('e', 'd');
+      packages.add('d', 'c');
+      packages.add('c', 'b');
+      packages.add('b', 'a');
+      packages.add('a', 'k');
 
-    expect( function(){ packages.installPackages(); }).toThrow(new UserException("Cycle Detected"));
+      expect( function(){ packages.installPackages(); }).toThrow();
   });
 
   it("Basic Cycle Case A", function() {
     packages.add('A', 'B');
     packages.add('B', 'A');
 
-    expect( function(){ packages.installPackages(); }).toThrow(new UserException("Cycle Detected"));
+    expect( function(){ packages.installPackages(); }).toThrow();
   });
 
   it("Basic Cycle Case B", function() {
-    packages.add('A', 'B');
-    packages.add('B', 'C');
-    packages.add('C', 'A');
-
-    expect( function(){ packages.installPackages(); }).toThrow(new UserException("Cycle Detected"));
+    expect( function(){ installer(['A: B', 'B: C', 'C: A']) 
+     }).toThrow();
   });
-  it("Dependency Problem with Cycle Case C", function() {
-    packages.add('A', 'B');
-    packages.add('D', 'A');
-
-    expect( function(){ packages.installPackages(); }).toThrow(new UserException("Cycle Detected"));
-  });
-    it("No Dependency Found", function(){
-      packages.clear();
-      packages.add('a','b');
-      packages.add('b','c');
-      packages.add('c','d'); 
-    expect( function(){     
-      packages.installPackages(); 
-    }).toThrow(new UserException("Could Not Find Dependency for Package c"));
-  });
-
 });
 
