@@ -2,6 +2,12 @@
 ##Package Installer
 This will create a install order for packages with given depedency using Javascript.
 
+##Installation
+```
+npm install
+ ```
+will handle installation of any required depedencys
+
 ##Usage: 
 From Commandline with node.js
 node js/index.js "['PackageNameA: DepedencyB', 'PackageNameB: DepdencyC', 'PackageNameC: ']"
