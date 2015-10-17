@@ -96,12 +96,23 @@ function installer(input) {
 
 //Node is Running.
 if (typeof module != 'undefined') {
-  var input = process.argv[2];
-  input = input.replace('[','');
-  input = input.replace(']','');
-  input = input.replace(/'/g,'');
-  input = input.replace(/ /g,'');
-  input = input.split(",");
+  function main() {
+    var input = process.argv[2];
+    var result;
+    if(typeof input === 'undefined'){
+      console.log("Usage: node js/index.js \"['A: B', 'B: C', 'C: D', 'D: ']\"");
+      return false;
+    }
+    input = input.replace('[','');
+    input = input.replace(']','');
+    input = input.replace(/'/g,'');
+    input = input.replace(/ /g,'');
+    input = input.split(",");
 
-  console.log(installer(input));
+    result = installer(input);
+    console.log(result);
+    return result;
+  }
+
+  main();
 }
