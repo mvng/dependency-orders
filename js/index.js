@@ -81,7 +81,6 @@ function UserException(message) {
 }
 
 function installer(input) {
-
   for (var i = 0; i < input.length; i++) {
      if(input[i][0] === ' ' | input[i].split(":").length != 2) {
       throw new UserException("Invalid Entry");
@@ -95,3 +94,14 @@ function installer(input) {
   return packages.installPackages();
 }
 
+//Node is Running.
+if (typeof module != 'undefined') {
+  var input = process.argv[2];
+  input = input.replace('[','');
+  input = input.replace(']','');
+  input = input.replace(/'/g,'');
+  input = input.replace(/ /g,'');
+  input = input.split(",");
+
+  console.log(installer(input));
+}

@@ -3,12 +3,19 @@
 This will create a install order for packages with given depedency using Javascript.
 
 ##Usage: 
+From Commandline with node.js
+node js/index.js "['PackageNameA: DepedencyB', 'PackageNameB: DepdencyC', 'PackageNameC: ']"
+
 Installer will take in an array of strings and returns an array of strings. 
 ['PackageNameA: DepedencyB', 'PackageNameB: DepdencyC', 'PackageNameC: ']
 
 and will return in this case,
 
 ['PackageNameC', 'PackageNameB', 'PackageNameA']
+
+Example:
+node js/index.js "['A: B', 'B: C', 'C: D', 'D: ']"
+[ 'D', 'C', 'B', 'A' ]
 
 ##Test
 To run test with karma, simply install Karma, point entry files to tests/test.js and js/main.js
