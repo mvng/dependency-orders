@@ -22,3 +22,9 @@ To run test with karma, simply install Karma, point entry files to tests/test.js
 
 Test cases are available through the Jasmine framework with Karma. To see available test cases, check tests/test.js.
 An HTML is also provided by Karma to easily display test case results.
+
+##Issues
+####Testing with Karma
+On some machines, the browser launcher fails to detect the certain browser, in that case manually 
+open a browser preferable Chrome or Safari and direct it to the port returned by karma usually in the format
+http://localhost:98xx
