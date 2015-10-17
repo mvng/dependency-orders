@@ -68,6 +68,12 @@ describe("Basic Installs", function () {
       expect(output).toEqual(expectedOutput);  
     });
 
+    it("Correct Install on Input", function(){
+      var expectedOutput = [ 'z', 'y', 'x', 'w', 'v', 'u', 't', 's', 'r', 'q', 'p', 'o', 'n', 'm', 'l', 'k', 'j', 'i', 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a' ];
+      var output = installer(['x: y', 'y: z', 'z: ', 'q: r', 'r: s', 's: t', 't: u', 'u: v', 'v: w', 'w: ', 'k: l', 'l: m', 'm: n', 'n: o', 'o: p', 'p: ', 'a: b', 'b: c', 'c: d', 'd: e', 'e: f', 'f: g', 'g: h', 'h: i', 'i: j', 'j: ']);
+      expect(output).toEqual(expectedOutput);
+    })
+
      it("z - a pairs - Testing Package Functionality", function() {
    var expectedOutput = ['x', 'y', 'z', 'q', 'r', 's', 't', 'u', 'v', 'w', 'k', 'l', 'm', 'n', 'o', 'p', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
     
@@ -171,8 +177,35 @@ describe("Basic Installs", function () {
   });
 });
 
-describe("Example Cycle Testing", function() {
- it("Example Cycle - Testing Package Functionality", function() {
+describe("Error Input Testing", function() {
+  it("Multiple :", function() {
+    expect( function() {
+       installer(['B::::', 'A: ']);
+      }
+      ).toThrow();
+  })
+  it("No :", function() {
+    expect( function() {
+       installer(['B', 'A: ']);
+      }
+      ).toThrow();
+  })
+  it("No : After an Install", function() {
+    expect( function() {
+       installer(['B: A', 'A: ', 'CA']);
+      }
+      ).toThrow();
+  })
+  it("No : Completely", function() {
+    expect( function() {
+       installer(['B', 'A', 'C']);
+      }
+      ).toThrow();
+  })
+});
+
+describe("Cycle Catching",  function() {
+   it("Example Cycle - Testing Package Functionality", function() {
     packages.add('KittenService', ' ');
     packages.add('Leetmeme', 'Cyberportal');
     packages.add('Cyberportal', 'Ice');
@@ -182,10 +215,6 @@ describe("Example Cycle Testing", function() {
 
     expect( function(){ packages.installPackages(); }).toThrow();
   });
-});
-
-describe("Cycle Catching",  function() {
-    
   it("Cycle In The Middle", function() {
       packages.add('z', 'y');
       packages.add('y', 'x');

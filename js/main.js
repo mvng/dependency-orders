@@ -6,40 +6,44 @@ var packages = new function() {
   this.installPackages = function() {
     var installList = [];
     var stage = [];
-    var counter = 0;
+   
    while (this.uniquePackages.length > 0) {
-     var packageName = this.uniquePackages[counter];
+     var packageName = this.uniquePackages[0];
      var current = this.installList[packageName];
 
      //installs the package if it has no dependency.
-      if (current.dependency === false && !current.visited && !current.installed) {
+      if (!current.dependency && !current.installed && !current.visited) {
           current.visited = true;
           current.installed = true;
           stage.push(packageName);
-          this.uniquePackages.splice(counter, 1);
+          this.uniquePackages.splice(0, 1);
           continue;
       } else {
       //Start to explore until no dependency package or installed
         var dependencyStage = [];
         dependencyStage.push(current.name);
-        while(current.dependency != false && !current.installed && !current.visited){
-          current.visited = true;
-          current = this.installList[current.dependency];
+
+        while(current.dependency && !current.installed && !current.visited){
           
+          current.visited = true;
+
+          if(typeof this.installList[current.dependency] === 'undefined') {
+            throw new UserException("Dependency Does Not Exist");
+          }
+          current = this.installList[current.dependency];
 
           dependencyStage.push(current.name);
 
          }
-         //Check if Dependency Trail has any Cycles by comparing the last value with everything else.
          if (dependencyStage.indexOf(current.name) != dependencyStage.length -1){
             throw new UserException("Cycle Detected from path " + dependencyStage);
+         } else {
+           this.installMerge(dependencyStage, stage);
          }
-         this.installMerge(dependencyStage, stage);
        }
    }
      return stage;
   }
-
 
   this.installMerge = function(dependencyStage, stage) {
     while(dependencyStage.length > 0) {
@@ -61,6 +65,8 @@ var packages = new function() {
     node = { 'name': name, 'dependency': dependency,'installed': false, 'visited': false};
     this.installList[name] = node;
     this.uniquePackages.push(name);
+
+    return node;
   }
   this.clear = function() {
     this.installList = {}
@@ -77,14 +83,15 @@ function UserException(message) {
 function installer(input) {
 
   for (var i = 0; i < input.length; i++) {
-     if(input[i][0] === ' ') {
+     if(input[i][0] === ' ' | input[i].split(":").length != 2) {
       throw new UserException("Invalid Entry");
     }
+
     input[i] = input[i].replace(/ /g, '');
     input[i] = input[i].split(":");
-
     packages.add(input[i][0], input[i][1]);
   }
 
   return packages.installPackages();
 }
+
