@@ -1,4 +1,3 @@
-## pluralsight-matthew-nguyen
 ##Package Installer
 This will create a install order for packages with given depedency using Javascript.
 
